@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/titlelogo.png">
+    <title>Luxury vs Counterfeits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Atyp TEST';
+            src: url('assets/atyp/atyp-test.ttf') format('truetype');
+            font-weight: 105;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Atyp TEST', Arial, sans-serif;
+            padding-top: 80px; /* Account for fixed navbar height */
+        }
+        .mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.active {
+            max-height: 300px;
+        }
+        /* Fixed navbar styles */
+        .fixed-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Curved navbar container */
+        .navbar-container {
+            background: rgb(255, 255, 255);
+            border-radius: 50px;
+            margin: 20px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: auto;
+            min-height: 60px;
+        }
+        /* Mobile navbar adjustments */
+        @media (max-width: 768px) {
+            .navbar-container {
+                margin: 10px;
+                padding: 12px;
+                border-radius: 90px;
+                width: 90% !important;
+            }
+            body {
+                padding-top: 90px;
+            }
+        }
+        /* Connect Now button styling */
+        .connect-btn {
+            background: linear-gradient(135deg, rgb(134, 194, 50), rgb(134, 194, 50));
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: 900;
+            transition: all 0.3s ease;
+        }
+        .connect-btn:hover {
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(134, 194, 50, 0.3);
+            color: rgb(134, 194, 50);
+        }
+        /* Mobile connect button */
+        @media (max-width: 768px) {
+            .connect-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        /* Read Now button styling */
+        .read-now-btn {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .read-now-btn:hover {
+            transform: translateX(4px);
+        }
+        /* Footer styles */
+        .footer-bg {
+            background: linear-gradient(180deg, #2f3030 1.7377202024470795%, #1c1c1c);
+        }
+        .orbitron-font {
+            font-family: 'Orbitron';
+            font-weight: normal !important;
+            text-align: center !important;
+        }
+        .footer-nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        .footer-contact-link {
+            color: #86C232;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        /* Mobile responsive text sizing */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem !important;
+                line-height: 1.1;
+            }
+            .section-title {
+                font-size: 1.5rem !important;
+            }
+            .card-title {
+                font-size: 1.25rem !important;
+            }
+            .orbitron-font {
+                font-size: 2.5rem !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem !important;
+            }
+            .section-title {
+                font-size: 1.25rem !important;
+            }
+            .card-title {
+                font-size: 1.125rem !important;
+            }
+            .orbitron-font {
+                font-size: 2rem !important;
+            }
+        }
+        /* Bottom section responsive */
+        .bottom-section {
+            background-image: url('assets/greenpattern.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 500px;
+        }
+        @media (max-width: 768px) {
+            .bottom-section {
+                min-height: 600px;
+            }
+        }
+        /* Card responsiveness */
+        .card-container {
+            padding: 2rem;
+        }
+        @media (max-width: 768px) {
+            .card-container {
+                padding: 1.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .card-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white m-0 p-0">
+    <!-- Fixed Navbar -->
+    <nav class="fixed-navbar">
+        <div class="navbar-container">
+            <div class="flex justify-between items-center w-full">
+                <!-- Logo Section -->
+                <div class="flex items-center">
+                    <img src="./assets/chainshieldslogo.png" alt="ChainShields Logo" class="h-6 w-auto mr-4 sm:h-8 sm:mr-24">
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="./" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="home">
+                        <span class="framer-text">Home</span>
+                    </a>
+                    <a href="./" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="why-chainshields">
+                        <span class="framer-text">Why Chainshields</span>
+                    </a>
+                    <a href="./" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="what-we-do">
+                        <span class="framer-text">What we do</span>
+                    </a>
+                    <a href="./" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="industries">
+                        <span class="framer-text">Industries</span>
+                    </a>
+                    <a href="./" class="connect-btn" data-nav="connect-now">
+                        <span class="framer-text">Connect Now</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden">
+                <div class="pt-4 pb-2 space-y-2">
+                    <a href="./" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="home">
+                        <span class="framer-text">Home</span>
+                    </a>
+                    <a href="./" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="why-chainshields">
+                        <span class="framer-text">Why Chainshields</span>
+                    </a>
+                    <a href="./" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="what-we-do">
+                        <span class="framer-text">What we do</span>
+                    </a>
+                    <a href="./" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="industries">
+                        <span class="framer-text">Industries</span>
+                    </a>
+                    <a href="./" class="block mx-3 mt-2 connect-btn text-center" data-nav="connect-now">
+                        <span class="framer-text">Connect Now</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content container -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-8 mt-[70px] md:mt-[122px]">
+        <!-- Title -->
+        <h1 class="main-title text-4xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-12 md:mb-14 mt-6 sm:mt-8 tracking-wider">
+            Luxury/Fashion vs Counterfeits
+        </h1>
+
+        <!-- Introduction paragraph -->
+        <p class="leading-relaxed mb-6 sm:mb-8 md:mb-6 text-sm sm:text-base max-w-4xl" style="color: #57678A;">
+            Luxury brands are among the most frequently counterfeited in the market, with signature products—including handbags, perfumes, and jewelry—frequently imitated. Counterfeiters reproduce logos, packaging, and design features to deceive consumers but cannot match the brand's authentic quality.
+        </p>
+
+        <!-- Main image with shopping bags -->
+        <div class="mb-6 sm:mb-8">
+            <div class="rounded-lg mb-2">
+                <img src="assets/chanelcard.jpeg" alt="Chanel Shopping Bags" class="w-full h-auto rounded-lg">
+            </div>
+        </div>
+
+        <!-- The Risks Hidden section -->
+        <div class="mb-6 sm:mb-8">
+            <h2 class="section-title text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide" style="color: #57678A;">
+                The Risks Hidden in a "Luxury Bargain"
+            </h2>
+            <p class="leading-relaxed mb-3 sm:mb-4 text-sm sm:text-base" style="color: #57678A;">
+                Fake luxury goods don't just harm profits—they harm trust. Counterfeit products are often 
+                made with inferior materials, poor craftsmanship, and no regard for ethical labor or product safety 
+                standards. These imitations:
+            </p>
+            <ul class="list-disc list-inside space-y-2 ml-4 text-sm sm:text-base" style="color: #57678A;">
+                <li>Undermine customer confidence and resale value</li>
+                <li>Deprive consumers of a genuine luxury experience</li>
+                <li>Harm brand's reputation and its heritage.</li>
+            </ul>
+        </div>
+
+        <!-- Brands dealing with Counterfeiting section -->
+        <div class="mb-6 sm:mb-8">
+            <h2 class="section-title text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide" style="color: #57678A;">
+                Brands dealing with Counterfeiting
+            </h2>
+            <p class="leading-relaxed mb-3 sm:mb-4 text-sm sm:text-base" style="color: #57678A;">
+                Many luxury brands have adopted a proactive approach to combat counterfeiting via:
+            </p>
+            <ul class="list-disc list-inside space-y-2 ml-4 mb-3 sm:mb-4 text-sm sm:text-base" style="color: #57678A;">
+                <li>Educating consumers about the dangers associated with counterfeit products.</li>
+                <li>Pursuing legal action against those involved in the production and sale of fakes.</li>
+                <li>Limiting sales only to authorized retailers and official platforms.</li>
+                <li>Incorporating authenticity features such as serial numbers, RFID technology, and distinctive design elements into its products.</li>
+            </ul>
+        </div>
+
+        <!-- Why This Matters section -->
+        <div class="mb-8 sm:mb-12 text-sm sm:text-base" style="color: #57678A;">
+            <h2 class="section-title text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide">
+                Why This Matters – and How ChainShields Can Help
+            </h2>
+            <p class="leading-relaxed mb-3 sm:mb-4">
+                At ChainShields, we're building tools to help brands and buyers like you, fight counterfeiting more 
+                transparently and effectively.
+            </p>
+            <p class="leading-relaxed mb-3 sm:mb-4">
+                The goal of this study is to spotlight a global problem that even the strongest brands face. 
+                Counterfeiting affects the economy, customer safety, and brand heritage.
+            </p>
+            <p class="leading-relaxed mb-3 sm:mb-4">
+                We're building a system to help brands ensure that their products—and their legacy—are never 
+                compromised.
+            </p>
+            <p class="leading-relaxed mb-3 sm:mb-4">
+                We believe a world free from counterfeits is possible.<br>
+                And we have the tools to make it real.
+            </p>
+        </div>
+    </div>
+
+    <!-- Bottom section with green background -->
+    <div class="relative h-[653px] mb-[100px]" style="background-image: url('assets/greenpattern.png'); background-size: cover; background-position: center;">
+        <!-- Centered grid container -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 max-w-4xl w-full px-6">
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Omron vs Counterfeits card -->
+                <div class="bg-white rounded-lg p-8 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                    <h3 class="text-2xl font-semibold mb-4 tracking-wider">Healthcare vs Counterfeits</h3>
+                    <p class="mb-6" style="color: #57678A;">
+                    Healthcare industry in India has flagged a surge of counterfeit devices...
+                    </p>
+                    <div class="flex items-center read-now-btn" style="color: #86C232;" onclick="window.location.href='healthcare.html'">
+                        <span class="mr-2">Read Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Brembo vs Counterfeits card -->
+                <div class="bg-white rounded-lg p-8 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                    <h3 class="text-2xl font-semibold mb-4 tracking-wider">Automotive vs Counterfeits</h3>
+                    <p class="mb-6" style="color: #57678A;">
+                        Leading manufacturers of high-performance automotive components......
+                    </p>
+                    <div class="flex items-center read-now-btn" style="color: #86C232;" onclick="window.location.href='automotive.html'">
+                        <span class="mr-2">Read Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer-bg text-white py-12 sm:py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Footer Navigation - Mobile: Column layout, Desktop: Row layout -->
+            <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 md:space-x-12 lg:space-x-24 mb-6 sm:mb-8">
+                <a href="./" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="home">Home</a>
+                <a href="./" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="what-we-do">What We Do</a>
+                <a href="./" class="footer-contact-link text-base sm:text-lg font-medium text-center" data-nav="industries">Industries</a>
+                <a href="./" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="why-chainshields">Why Chainshields</a>
+                <a href="./" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="connect-now">Contact</a>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex justify-center mt-2 mb-4 sm:mb-6">
+                <div class="w-full h-px bg-gray-600"></div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center mb-8 sm:mb-12">
+                <p class="text-sm sm:text-base" style="color: #86C232;">© 2025 AcespireConsulting All rights reserved.</p>
+            </div>
+
+            <!-- ChainShields Logo Text -->
+            <div class="text-center">
+                <h1 class="orbitron-font text-3xl sm:text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-black text-white tracking-wide w-full">
+                    CHAINSHIELDS
+                </h1>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            let isMenuOpen = false;
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    isMenuOpen = !isMenuOpen;
+                    
+                    if (isMenuOpen) {
+                        mobileMenu.classList.add('active');
+                        // Change hamburger to X icon
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        `;
+                    } else {
+                        mobileMenu.classList.remove('active');
+                        // Change X back to hamburger icon
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    }
+                });
+
+                // Close mobile menu when clicking on a link
+                const mobileLinks = document.querySelectorAll('#mobile-menu a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        isMenuOpen = false;
+                        mobileMenu.classList.remove('active');
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    });
+                });
+
+                // Close mobile menu when window is resized to desktop size
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 768 && isMenuOpen) {
+                        isMenuOpen = false;
+                        mobileMenu.classList.remove('active');
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    }
+                });
+            }
+        });
+
+        // Navigation script (keeping the original functionality)
+        (function() {
+            'use strict';
+            
+            // Configuration - Update these paths based on your server structure
+            const CONFIG = {
+                // Your main page filename (change if different)
+                mainPageFile: 'chainshields.html',  // or 'index.html' if you rename it
+                
+                // Base path (update based on your hosting structure)
+                // Leave empty string '' if files are in root directory
+                // Use '/subfolder/' if your site is in a subfolder
+                basePath: '',  // Change to '/your-folder/' if needed
+                
+                // Alternative: Auto-detect base path (recommended for most cases)
+                autoDetectPath: true
+            };
+            
+            // Wait for DOM to be fully loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initNavigation);
+            } else {
+                initNavigation();
+            }
+            
+            function initNavigation() {
+                // Get current page info
+                const currentPath = window.location.pathname;
+                const currentFile = currentPath.split('/').pop() || CONFIG.mainPageFile;
+                
+                // Determine base path
+                let basePath;
+                if (CONFIG.autoDetectPath) {
+                    basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+                } else {
+                    basePath = CONFIG.basePath;
+                }
+                
+                // Check if we're on the main page
+                const isMainPage = currentFile === CONFIG.mainPageFile || 
+                                  currentFile === '' ||
+                                  currentPath.endsWith('/');
+                
+                console.log('Navigation Info:', {
+                    currentPath,
+                    currentFile,
+                    basePath,
+                    isMainPage
+                });
+                
+                // Function to smooth scroll to target element (for same page navigation)
+                function smoothScrollTo(targetElement) {
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }
+                }
+                
+                // Function to handle navigation clicks
+                function handleNavClick(event, targetSelector, sectionName) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    if (isMainPage) {
+                        // If we're on the main page, scroll to the section
+                        const targetElement = document.querySelector(targetSelector);
+                        if (targetElement) {
+                            smoothScrollTo(targetElement);
+                            
+                            // Update URL without triggering page reload
+                            if (history.pushState) {
+                                const newUrl = window.location.origin + basePath + CONFIG.mainPageFile + '#' + sectionName;
+                                history.pushState(null, null, newUrl);
+                            }
+                        } else {
+                            console.warn('Target element not found:', targetSelector);
+                        }
+                    } else {
+                        // If we're on a different page, navigate to main page with hash
+                        const targetUrl = window.location.origin + basePath + CONFIG.mainPageFile + '#' + sectionName;
+                        window.location.href = targetUrl;
+                    }
+                }
+                
+                // Navigation configuration mapping data-nav attributes to sections
+                const navConfig = {
+                    'home': {
+                        targetSelector: '[data-framer-name="2 Columns Text Image"]',
+                        sectionName: 'home'
+                    },
+                    'why-chainshields': {
+                        targetSelector: '[data-framer-name="Features Product"]',
+                        sectionName: 'why-chainshields'
+                    },
+                    'what-we-do': {
+                        targetSelector: '[data-framer-name="Services"]',
+                        sectionName: 'what-we-do'
+                    },
+                    'industries': {
+                        targetSelector: '[data-framer-name="Branding"]',
+                        sectionName: 'industries'
+                    },
+                    'connect-now': {
+                        targetSelector: '[data-framer-name="Top"]',
+                        sectionName: 'connect-now'
+                    }
+                };
+                
+                // Setup navigation for all nav links with data-nav attributes (including footer links)
+                const navLinks = document.querySelectorAll('a[data-nav]');
+                navLinks.forEach(function(link) {
+                    const navType = link.getAttribute('data-nav');
+                    const config = navConfig[navType];
+                    
+                    if (config) {
+                        link.addEventListener('click', function(e) {
+                            handleNavClick(e, config.targetSelector, config.sectionName);
+                        }, true);
+                        
+                        console.log('Navigation setup complete for:', navType);
+                    }
+                });
+                
+                // Fallback: Setup navigation for links with framer-text spans
+                const framerTextLinks = document.querySelectorAll('a[href="./"] .framer-text, a[href="#"] .framer-text');
+                framerTextLinks.forEach(function(textElement) {
+                    const buttonText = textElement.textContent.trim();
+                    const link = textElement.closest('a');
+                    
+                    if (link && !link.hasAttribute('data-nav')) {
+                        let config = null;
+                        
+                        switch(buttonText) {
+                            case 'Home':
+                                config = navConfig['home'];
+                                break;
+                            case 'Why Chainshields':
+                                config = navConfig['why-chainshields'];
+                                break;
+                            case 'What we do':
+                            case 'How it works':
+                                config = navConfig['what-we-do'];
+                                break;
+                            case 'Industries':
+                                config = navConfig['industries'];
+                                break;
+                            case 'Connect Now':
+                            case 'Contact Now':
+                                config = navConfig['connect-now'];
+                                break;
+                        }
+                        
+                        if (config) {
+                            link.addEventListener('click', function(e) {
+                                handleNavClick(e, config.targetSelector, config.sectionName);
+                            }, true);
+                            
+                            console.log('Fallback navigation setup complete for:', buttonText);
+                        }
+                    }
+                });
+                
+                // Handle hash navigation on page load
+                if (isMainPage && window.location.hash) {
+                    setTimeout(function() {
+                        const hash = window.location.hash.substring(1);
+                        const config = Object.values(navConfig).find(nav => nav.sectionName === hash);
+                        if (config) {
+                            const targetElement = document.querySelector(config.targetSelector);
+                            if (targetElement) {
+                                smoothScrollTo(targetElement);
+                            }
+                        }
+                    }, 1000); // Increased delay for server-hosted sites
+                }
+                
+                console.log('Production navigation script initialized successfully');
+            }
+            
+            // Backup initialization with longer delay for server environments
+            setTimeout(function() {
+                if (typeof initNavigation === 'function') {
+                    initNavigation();
+                }
+            }, 2000);
+            
+        })(); 
+
+    </script>
+</body>
+</html>
