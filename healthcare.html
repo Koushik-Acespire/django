@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/titlelogo.png">
+    <title>Healthcare vs Counterfeits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+   <style>
+        @font-face {
+            font-family: 'Atyp TEST';
+            src: url('assets/atyp/atyp-test.ttf') format('truetype');
+            font-weight: 105;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Atyp TEST', Arial, sans-serif;
+            padding-top: 80px; /* Account for fixed navbar height */
+        }
+        .mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+        }
+        .mobile-menu.active {
+            max-height: 300px;
+            opacity: 1;
+        }
+        /* Fixed navbar styles */
+        .fixed-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Curved navbar container */
+        .navbar-container {
+            background: rgb(255, 255, 255);
+            border-radius: 50px;
+            margin: 20px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: auto;
+            min-height: 60px;
+        }
+        /* Mobile navbar adjustments */
+        @media (max-width: 768px) {
+            .navbar-container {
+                margin: 10px;
+                padding: 12px;
+                border-radius: 90px;
+                width: 90% !important;
+            }
+            body {
+                padding-top: 90px;
+            }
+        }
+        /* Connect Now button styling */
+        .connect-btn {
+            background: linear-gradient(135deg, rgb(134, 194, 50), rgb(134, 194, 50));
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: 900;
+            transition: all 0.3s ease;
+        }
+        .connect-btn:hover {
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(134, 194, 50, 0.3);
+            color: rgb(134, 194, 50);
+        }
+        /* Mobile connect button */
+        @media (max-width: 768px) {
+            .connect-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        /* Read Now button styling */
+        .read-now-btn {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .read-now-btn:hover {
+            transform: translateX(4px);
+        }
+        /* Footer styles */
+        .footer-bg {
+            background: linear-gradient(180deg, #2f3030 1.7377202024470795%, #1c1c1c);
+        }
+        .orbitron-font {
+            font-family: 'Orbitron';
+            font-weight: normal !important;
+            text-align: center !important;
+        }
+        .footer-nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        .footer-contact-link {
+            color: #86C232;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        /* Mobile responsive text sizing */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem !important;
+                line-height: 1.1;
+            }
+            .section-title {
+                font-size: 1.5rem !important;
+            }
+            .card-title {
+                font-size: 1.25rem !important;
+            }
+            .orbitron-font {
+                font-size: 2.5rem !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem !important;
+            }
+            .section-title {
+                font-size: 1.25rem !important;
+            }
+            .card-title {
+                font-size: 1.125rem !important;
+            }
+            .orbitron-font {
+                font-size: 2rem !important;
+            }
+        }
+        /* Bottom section responsive */
+        .bottom-section {
+            background-image: url('assets/greenpattern.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 500px;
+        }
+        @media (max-width: 768px) {
+            .bottom-section {
+                min-height: 600px;
+            }
+        }
+        /* Card responsiveness */
+        .card-container {
+            padding: 2rem;
+        }
+        @media (max-width: 768px) {
+            .card-container {
+                padding: 1.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .card-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 m-0 p-0">
+   <!-- Fixed Navbar -->
+    <nav class="fixed-navbar">
+        <div class="navbar-container">
+            <div class="flex justify-between items-center w-full">
+                <!-- Logo Section -->
+                <div class="flex items-center">
+                <a href="https://chainshields.com">
+                    <img src="./assets/chainshieldslogo.png" alt="ChainShields Logo" class="h-6 w-auto mr-4 sm:h-8 sm:mr-24"></a> 
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="chainshields.html" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="home">
+                        <span class="framer-text">Home</span>
+                    </a>
+                    <a href="chainshields.html#why-chainshields" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="why-chainshields">
+                        <span class="framer-text">Why Chainshields</span>
+                    </a>
+                    <a href="chainshields.html#what-we-do" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="what-we-do">
+                        <span class="framer-text">What we do</span>
+                    </a>
+                    <a href="chainshields.html#industries" class="text-gray-1100 hover:text-gray-900 transition-colors duration-200 font-medium" data-nav="industries">
+                        <span class="framer-text">Industries</span>
+                    </a>
+                    <a href="chainshields.html#connect-now" class="connect-btn" data-nav="connect-now">
+                        <span class="framer-text">Connect Now</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden">
+                <div class="pt-4 pb-2 space-y-2">
+                    <a href="chainshields.html" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="home">
+                        <span class="framer-text">Home</span>
+                    </a>
+                    <a href="chainshields.html#why-chainshields" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="why-chainshields">
+                        <span class="framer-text">Why Chainshields</span>
+                    </a>
+                    <a href="chainshields.html#what-we-do" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="what-we-do">
+                        <span class="framer-text">What we do</span>
+                    </a>
+                    <a href="chainshields.html#industries" class="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" data-nav="industries">
+                        <span class="framer-text">Industries</span>
+                    </a>
+                    <a href="chainshields.html#connect-now" class="block mx-3 mt-2 connect-btn text-center" data-nav="connect-now">
+                        <span class="framer-text">Connect Now</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+ <!-- Header with logos -->
+   <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-8 mt-[70px] md:mt-[122px]">
+        <!-- Title -->
+        <h1 class="main-title text-4xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-12 md:mb-14 mt-6 sm:mt-8 tracking-wider">Healthcare vs Counterfeits</h1>
+        <!-- Introduction paragraph -->
+        <p class="leading-relaxed mb-6 sm:mb-8 md:mb-6 text-sm sm:text-base max-w-4xl" style="color: #57678A;">
+            One of the leading healthcare device manufacturer has identified a surge in counterfeit medical products—including falsely marketed monitors and therapeutic devices. These items that are not part of the genuine product line, mimic the  authentic branding and packaging, failing to meet the required quality or safety standards.
+        </p>
+
+        <!-- Main image with shopping bags -->
+        <div class="mb-6 sm:mb-8">
+            <div class="rounded-lg mb-2">
+                <img src="assets/omroncard.jpg" alt="Omron Products" class="w-full h-auto rounded-lg">
+            </div>
+        </div>
+
+        <!-- health risks -->
+         <div class="mb-6 sm:mb-8">
+            <h2 class="section-title text-2xl font-semibold mb-4 tracking-wide" style="color: #57678A;">Health Risks & Consumer Urgency</h2>
+            <p class="leading-relaxed mb-4" style="color: #57678A;">
+                Counterfeit medical devices can deliver life-impacting consequences—misleading readings can cause delayed treatment, misdiagnosis, or failure to detect health issues.
+            </p>
+        </div>
+
+        <!-- omron's response -->
+        <div class="mb-8">
+            <h2 class="section-title text-2xl font-semibold mb-4 tracking-wide" style="color: #57678A;">Brands Response to counterfeiting</h2>
+            <p class="leading-relaxed mb-4" style="color: #57678A;">
+                 Measures applied to ensure consumer safety:
+            </p>
+            <ul class="list-disc list-inside space-y-2 ml-4 mb-4" style="color: #57678A;">
+                <li>Issue public advisories against unauthorized online purchases.</li>
+                <li>Provide visual guides to assist in identifying counterfeit devices.</li>
+                <li>Initiate legal actions and enforce intellectual property rights against violators.</li>
+                <li>Emphasize on a safety-first policy by disclaiming liability for counterfeit-related damages.</li>
+                <li>Encourage product authentication through official verification channels.</li>
+            </ul>
+        </div>
+
+        <!--  How ChainShields Takes Protection to the Next Level-->
+        <div class="mb-12" style="color: #57678A;">
+            <h2 class="section-title text-2xl font-semibold mb-4 tracking-wide">How ChainShields Takes Protection to the Next Level</h2>
+            <p class="leading-relaxed mb-4">
+               ChainShields offers a proactive and continuous defense, creating a transparent, tamper-proof link from factory to consumer:
+            </p>
+            <ul class="list-disc list-inside space-y-2 ml-4 mb-4" style="color: #57678A;">
+                <li>
+                    <span class="font-semibold">Manufacturer-Regulated Supply Chain</span><br>
+                    ChainShields embeds blockchain-tracked QR tags on every device and accessory at the point of manufacturing. Every subsequent transfer from distributors, warehouses to retailers is recorded and verifiable, eliminating unauthorized insertion of fake products into the supply chain.
+                </li>
+
+                <li>
+                    <span class="font-semibold">Consumer-Level Transparency</span><br>
+                    End users can scan the ChainShields QR code to access a secure, detailed journey of the product—where and when it moved, who handled it, and whether any deviations occurred. No more guessing if your wrist monitor or nebulizer is genuine.
+                </li>
+
+                <li>
+                    <span class="font-semibold">Instant Alerts & Risk Detection</span><br>
+                    Any skipped step, unknown handler, or mismatched location in the scan audit instantly triggers alerts. Both the provider and the end user receive immediate notification of possible fraud, allowing swift investigation and response.
+                </li>
+
+                <li>
+                    <span class="font-semibold">Immutable & Auditable Records</span><br>
+                    Built on blockchain, ChainShields records supply chain data irrevocably, giving full visibility and peace of mind to both provider and its customers.
+                </li>
+            </ul>
+            <!-- <p>
+                For more detailed info, check Omron's original case study here:<br>
+                <a 
+                        href="https://www.omronbrandshop.com/notice-of-counterfeit-omron-products/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="underline hover:text-gray-600 transition"
+                    >
+                        Notice of Counterfeit omron products
+                    </a>
+            </p>         -->
+        </div>
+    </div>
+
+    <!-- Bottom section with green background -->
+    <div class="relative h-[653px] mb-[100px]" style="background-image: url('assets/greenpattern.png'); background-size: cover; background-position: center;">
+        <!-- Centered grid container -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 max-w-4xl w-full px-6">
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Omron vs Counterfeits card -->
+                <div class="bg-white rounded-lg p-8 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                    <h3 class="text-2xl font-semibold mb-4 tracking-wider">Automotive vs Counterfeits</h3>
+                    <p class="mb-6" style="color: #57678A;">
+                    Leading manufacturers of high-performance automotive components......
+                    </p>
+                    <div class="flex items-center read-now-btn" style="color: #86C232;" onclick="window.location.href='automotive.html'">
+                        <span class="mr-2">Read Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Brembo vs Counterfeits card -->
+                <div class="bg-white rounded-lg p-8 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                    <h3 class="text-2xl font-semibold mb-4 tracking-wider">Luxury vs Counterfeits</h3>
+                    <p class="mb-6" style="color: #57678A;">
+                        Luxury fashion brands—draws counterfeiters worldwide........
+                    </p>
+                    <div class="flex items-center read-now-btn" style="color: #86C232;" onclick="window.location.href='luxury.html'">
+                        <span class="mr-2">Read Now</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Section -->
+     <footer class="footer-bg text-white py-12 sm:py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Footer Navigation - Mobile: Column layout, Desktop: Row layout -->
+            <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 md:space-x-12 lg:space-x-24 mb-6 sm:mb-8">
+                <a href="chainshields.html" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="home">Home</a>
+                <a href="chainshields.html#what-we-do" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="what-we-do">What We Do</a>
+                <a href="chainshields.html#industries" class="footer-contact-link text-base sm:text-lg font-medium text-center" data-nav="industries">Industries</a>
+                <a href="chainshields.html#why-chainshields" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="why-chainshields">Why Chainshields</a>
+                <a href="chainshields.html#connect-now" class="footer-nav-link text-base sm:text-lg font-medium text-center" data-nav="connect-now">Connect Now</a>
+            </div>
+            
+            <!-- Divider -->
+            <div class="flex justify-center mt-2 mb-4 sm:mb-6">
+                <div class="w-full h-px bg-gray-600"></div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center mb-8 sm:mb-12">
+    <p class="text-sm sm:text-base" style="color: #86C232;">© <span style="text-decoration: none; cursor: pointer; transition: text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'" onclick="window.open('https://acespireconsulting.com', '_blank')">AcespireConsulting</span> All rights reserved.</p>
+</div>
+
+            <!-- ChainShields Logo Text -->
+            <div class="text-center">
+                <h1 class="orbitron-font text-3xl sm:text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-black text-white tracking-wide w-full">
+                    CHAINSHIELDS
+                </h1>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            let isMenuOpen = false;
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    isMenuOpen = !isMenuOpen;
+                    
+                    if (isMenuOpen) {
+                        mobileMenu.classList.add('active');
+                        // Change hamburger to X icon
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        `;
+                    } else {
+                        mobileMenu.classList.remove('active');
+                        // Change X back to hamburger icon
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    }
+                });
+
+                // Close mobile menu when clicking on a link
+                const mobileLinks = document.querySelectorAll('#mobile-menu a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        isMenuOpen = false;
+                        mobileMenu.classList.remove('active');
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    });
+                });
+
+                // Close mobile menu when window is resized to desktop size
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 768 && isMenuOpen) {
+                        isMenuOpen = false;
+                        mobileMenu.classList.remove('active');
+                        mobileMenuButton.innerHTML = `
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        `;
+                    }
+                });
+            }
+        });
+
+        // Navigation script (keeping the original functionality)
+       (function() {
+    'use strict';
+    
+    // Configuration
+    const CONFIG = {
+        // Multiple possible main page files
+        mainPageFiles: ['chainshields.html', 'index.html', ''],
+        
+        // Increased timeouts for production
+        scrollDelay: 3000,
+        retryDelay: 5000,
+        maxRetries: 10
+    };
+    
+    let retryCount = 0;
+    let navigationReady = false;
+    
+    // Initialize with multiple fallbacks
+    function initWithRetry() {
+        if (navigationReady) return;
+        
+        try {
+            initNavigation();
+            navigationReady = true;
+            console.log('Navigation initialized successfully');
+        } catch (error) {
+            console.warn('Navigation init failed, retrying...', error);
+            retryCount++;
+            
+            if (retryCount < CONFIG.maxRetries) {
+                setTimeout(initWithRetry, CONFIG.retryDelay);
+            } else {
+                console.error('Navigation failed after max retries');
+                initFallbackNavigation();
+            }
+        }
+    }
+    
+    // Main initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWithRetry);
+    } else {
+        initWithRetry();
+    }
+    
+    function initNavigation() {
+        const currentPath = window.location.pathname;
+        const currentFile = currentPath.split('/').pop();
+        
+        // Better main page detection for GitHub Pages
+        const isMainPage = CONFIG.mainPageFiles.includes(currentFile) ||
+                          currentPath.endsWith('/') ||
+                          currentPath === '/' ||
+                          !currentFile.includes('.') ||
+                          currentFile === '';
+        
+        console.log('Navigation Debug:', {
+            currentPath,
+            currentFile,
+            isMainPage,
+            hostname: window.location.hostname
+        });
+        
+        // Enhanced navigation configuration with multiple selectors
+        const navConfig = {
+            'home': {
+                selectors: [
+                    '[data-framer-name="2 Columns Text Image"]',
+                    '#home',
+                    '.hero-section',
+                    'header',
+                    'main > :first-child'
+                ],
+                sectionName: 'home'
+            },
+            'why-chainshields': {
+                selectors: [
+                    '[data-framer-name="Features Product"]',
+                    '#why-chainshields',
+                    '#features',
+                    '.features-section',
+                    '[id*="why"]',
+                    '[class*="feature"]'
+                ],
+                sectionName: 'why-chainshields'
+            },
+            'what-we-do': {
+                selectors: [
+                    '[data-framer-name="Services"]',
+                    '#what-we-do',
+                    '#services',
+                    '.services-section',
+                    '[id*="service"]',
+                    '[class*="service"]'
+                ],
+                sectionName: 'what-we-do'
+            },
+            'industries': {
+                selectors: [
+                    '[data-framer-name="Branding"]',
+                    '#industries',
+                    '#branding',
+                    '.industries-section',
+                    '[id*="industr"]',
+                    '[class*="industr"]'
+                ],
+                sectionName: 'industries'
+            },
+            'connect-now': {
+                selectors: [
+                    '[data-framer-name="Top"]',
+                    '#connect-now',
+                    '#contact',
+                    '.contact-section',
+                    'footer',
+                    '[id*="contact"]',
+                    '[class*="contact"]'
+                ],
+                sectionName: 'connect-now'
+            }
+        };
+        
+        // Function to find target element using multiple selectors
+        function findTargetElement(config) {
+            for (const selector of config.selectors) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    console.log(`Found element with selector: ${selector}`);
+                    return element;
+                }
+            }
+            console.warn('No target element found for:', config.selectors);
+            return null;
+        }
+        
+        // Enhanced smooth scroll with better error handling
+        function smoothScrollTo(targetElement) {
+            if (!targetElement) return false;
+            
+            try {
+                // Multiple scroll methods for better compatibility
+                if (targetElement.scrollIntoView) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                } else {
+                    // Fallback for older browsers
+                    const elementTop = targetElement.offsetTop;
+                    window.scrollTo({
+                        top: elementTop - 100, // Offset for fixed headers
+                        behavior: 'smooth'
+                    });
+                }
+                return true;
+            } catch (error) {
+                console.warn('Smooth scroll failed, using fallback:', error);
+                // Final fallback - instant scroll
+                targetElement.scrollIntoView();
+                return true;
+            }
+        }
+        
+        // Enhanced navigation click handler
+        function handleNavClick(event, config, sectionName) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            console.log('Navigation clicked:', sectionName, 'isMainPage:', isMainPage);
+            
+            if (isMainPage) {
+                // Same page navigation
+                const targetElement = findTargetElement(config);
+                if (targetElement) {
+                    const scrolled = smoothScrollTo(targetElement);
+                    if (scrolled && history.pushState) {
+                        // Update URL without page reload
+                        const newUrl = `${window.location.origin}${window.location.pathname}#${sectionName}`;
+                        history.pushState(null, null, newUrl);
+                    }
+                } else {
+                    console.warn('Target element not found for section:', sectionName);
+                    // Fallback: try scrolling to any element with similar text content
+                    fallbackTextSearch(sectionName);
+                }
+            } else {
+                // Navigate to main page with hash
+                const mainPageUrl = determineMainPageUrl();
+                const targetUrl = `${mainPageUrl}#${sectionName}`;
+                console.log('Navigating to:', targetUrl);
+                window.location.href = targetUrl;
+            }
+        }
+        
+        // Determine correct main page URL for GitHub Pages
+        function determineMainPageUrl() {
+            const origin = window.location.origin;
+            const pathParts = window.location.pathname.split('/').filter(part => part);
+            
+            // For GitHub Pages: https://username.github.io/repo-name/
+            if (window.location.hostname.includes('github.io')) {
+                if (pathParts.length > 0) {
+                    return `${origin}/${pathParts[0]}/`;
+                }
+            }
+            
+            return origin + '/';
+        }
+        
+        // Fallback text search for missing elements
+        function fallbackTextSearch(sectionName) {
+            const keywords = {
+                'home': ['home', 'chainshields', 'protecting authenticity'],
+                'why-chainshields': ['why', 'features', 'benefits', 'blockchain'],
+                'what-we-do': ['what', 'services', 'how it works'],
+                'industries': ['industries', 'automotive', 'sectors'],
+                'connect-now': ['contact', 'connect', 'get in touch']
+            };
+            
+            const searchTerms = keywords[sectionName] || [sectionName];
+            
+            for (const term of searchTerms) {
+                const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, [class*="title"], [class*="heading"]');
+                for (const element of elements) {
+                    if (element.textContent.toLowerCase().includes(term.toLowerCase())) {
+                        console.log(`Fallback: Found element by text content: ${term}`);
+                        smoothScrollTo(element);
+                        return;
+                    }
+                }
+            }
+        }
+        
+        // Setup navigation with enhanced text matching
+        function setupNavigation() {
+            // Primary: Setup data-nav attribute links
+            const navLinks = document.querySelectorAll('a[data-nav]');
+            navLinks.forEach(function(link) {
+                const navType = link.getAttribute('data-nav');
+                const config = navConfig[navType];
+                
+                if (config) {
+                    link.addEventListener('click', function(e) {
+                        handleNavClick(e, config, config.sectionName);
+                    }, true);
+                    console.log('Navigation setup for data-nav:', navType);
+                }
+            });
+            
+            // Secondary: Setup text-based navigation with better matching
+            const textMappings = {
+                'home': ['home'],
+                'why chainshields': ['why-chainshields'],
+                'chainshields': ['why-chainshields'],
+                'what we do': ['what-we-do'],
+                'how it works': ['what-we-do'],
+                'services': ['what-we-do'],
+                'industries': ['industries'],
+                'sectors': ['industries'],
+                'connect now': ['connect-now'],
+                'contact now': ['connect-now'],
+                'contact': ['connect-now'],
+                'get in touch': ['connect-now']
+            };
+            
+            // Find all clickable elements
+            const clickableElements = document.querySelectorAll('a, button, [onclick], [role="button"]');
+            clickableElements.forEach(function(element) {
+                if (element.hasAttribute('data-nav')) return; // Skip already processed
+                
+                const text = element.textContent.trim().toLowerCase();
+                const href = element.getAttribute('href');
+                
+                // Skip external links and already processed elements
+                if (href && (href.startsWith('http') || href.startsWith('mailto'))) return;
+                
+                for (const [textPattern, configKeys] of Object.entries(textMappings)) {
+                    if (text.includes(textPattern)) {
+                        const configKey = configKeys[0];
+                        const config = navConfig[configKey];
+                        
+                        if (config) {
+                            element.addEventListener('click', function(e) {
+                                handleNavClick(e, config, config.sectionName);
+                            }, true);
+                            console.log('Text-based navigation setup for:', text, '->', configKey);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Setup navigation
+        setupNavigation();
+        
+        // Handle hash navigation on page load with extended delay
+        if (isMainPage && window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            console.log('Hash navigation requested:', hash);
+            
+            setTimeout(function() {
+                const config = Object.values(navConfig).find(nav => nav.sectionName === hash);
+                if (config) {
+                    const targetElement = findTargetElement(config);
+                    if (targetElement) {
+                        smoothScrollTo(targetElement);
+                    } else {
+                        // Retry with longer delay
+                        setTimeout(() => {
+                            const retryElement = findTargetElement(config);
+                            if (retryElement) {
+                                smoothScrollTo(retryElement);
+                            } else {
+                                fallbackTextSearch(hash);
+                            }
+                        }, CONFIG.scrollDelay);
+                    }
+                }
+            }, 1000);
+        }
+    }
+    
+    // Fallback navigation for when main script fails
+    function initFallbackNavigation() {
+        console.log('Initializing fallback navigation');
+        
+        // Simple hash-based navigation
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            
+            const href = link.getAttribute('href');
+            const text = link.textContent.trim().toLowerCase();
+            
+            // Handle internal navigation
+            if (href === './' || href === '#' || href === '') {
+                e.preventDefault();
+                
+                // Simple text-based scrolling
+                if (text.includes('home')) {
+                    window.scrollTo(0, 0);
+                } else if (text.includes('why') || text.includes('features')) {
+                    scrollToSection(['#why-chainshields', '.features']);
+                } else if (text.includes('what') || text.includes('services')) {
+                    scrollToSection(['#what-we-do', '.services']);
+                } else if (text.includes('industries')) {
+                    scrollToSection(['#industries', '.industries']);
+                } else if (text.includes('contact') || text.includes('connect')) {
+                    scrollToSection(['#contact', 'footer']);
+                }
+            }
+        });
+        
+        function scrollToSection(selectors) {
+            for (const selector of selectors) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
+            }
+        }
+    }
+    
+    // Global error handler
+    window.addEventListener('error', function(e) {
+        console.warn('Navigation script error:', e.error);
+    });
+    
+    // Export for debugging
+    window.chainshieldsNav = {
+        initNavigation,
+        initFallbackNavigation,
+        retryCount: () => retryCount,
+        isReady: () => navigationReady
+    };
+    
+})();
+
+    </script>
+</body>
+</html>
